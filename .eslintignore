@@ -1,0 +1,5 @@
+/client/
+/e2e/
+/node_modules/
+/karma.conf.js
+/protractor.conf.js

@@ -1,0 +1,5 @@
+@import '~@angular/material/theming';
+
+$hra-light-primary: mat-palette($mat-indigo);
+$hra-light-accent:  mat-palette($mat-pink, A200, A100, A400);
+$hra-light-theme:   mat-dark-theme($hra-light-primary, $hra-light-accent);
