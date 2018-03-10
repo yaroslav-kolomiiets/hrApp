@@ -12,10 +12,10 @@
     "build:stats:front:prod": "ng build --prod --stats-json=stats.json",
     "test:front": "ng test",
     "lint:front": "ng lint",
-    "lint:back": "eslint server; exit 0",
+    "lint:back": "eslint server",
     "e2e:front": "ng e2e",
     "stats:front": "webpack-bundle-analyzer ./dist/public/stats.json",
-    "stylelint": "stylelint '**/*.scss'; exit 0"
+    "stylelint": "stylelint '**/*.scss'"
   },
   "private": true,
   "dependencies": {
@@ -81,6 +81,8 @@
     "stylelint-scss": "2.5.0",
     "ts-node": "4.1.0",
     "tslint": "5.9.1",
+    "tslint-config-prettier": "1.9.0",
+    "tslint-plugin-prettier": "1.3.0",
     "typescript": "2.6.2",
     "web-animations-js": "2.3.1",
     "webpack-bundle-analyzer": "2.11.1",
