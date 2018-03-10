@@ -1,39 +1,11 @@
 {
-  "rules": {
-    "indent": [
-      "error",
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "space-before-function-paren": [
-      "error",
-      {
-        "anonymous": "always",
-        "named": "never"
-      }
-    ],
-    "no-use-before-define": [
-      "error",
-      "nofunc"
-    ],
-    "comma-dangle": [
-      "off"
-    ],
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "devDependencies": true
-      }
-    ],
-    "no-underscore-dangle": [
-      "off"
-    ]
-  },
+  "extends": [
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:prettier/recommended"
+  ],
   "env": {
-    "node": true,
-    "mocha": true
+    "node": true
   },
   "parserOptions": {
     "ecmaVersion": 8,
@@ -42,9 +14,5 @@
       "modules": false,
       "impliedStrict": false
     }
-  },
-  "extends": [
-    "eslint:recommended",
-    "airbnb-base"
-  ]
+  }
 }

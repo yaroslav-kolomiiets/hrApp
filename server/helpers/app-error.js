@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 class AppError extends Error {
   constructor(data, ...params) {
@@ -8,11 +8,11 @@ class AppError extends Error {
       Error.captureStackTrace(this, AppError);
     }
 
-    if ('name' in data && typeof data.name === 'string') {
+    if ("name" in data && typeof data.name === "string") {
       this.name = data.name;
     }
 
-    if ('httpCode' in data && !Number.isNaN(data.httpCode)) {
+    if ("httpCode" in data && !Number.isNaN(data.httpCode)) {
       this.httpCode = Number(data.httpCode);
     }
   }
