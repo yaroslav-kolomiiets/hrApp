@@ -1,5 +1,3 @@
-"use strict";
-
 class AppError extends Error {
   constructor(data, ...params) {
     super(...params);
