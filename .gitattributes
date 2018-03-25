@@ -122,6 +122,7 @@ TODO         text
 *.cnf            text
 *.conf           text
 *.config         text
+.babelrc         text
 .editorconfig    text
 .gitattributes   text
 .gitconfig       text

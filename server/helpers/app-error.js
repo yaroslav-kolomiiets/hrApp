@@ -1,4 +1,4 @@
-class AppError extends Error {
+export default class AppError extends Error {
   constructor(data, ...params) {
     super(...params);
 
@@ -15,5 +15,3 @@ class AppError extends Error {
     }
   }
 }
-
-module.exports = AppError;

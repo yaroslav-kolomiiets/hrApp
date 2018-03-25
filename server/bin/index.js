@@ -1,1 +1,1 @@
-require("./www");
+import "./www";

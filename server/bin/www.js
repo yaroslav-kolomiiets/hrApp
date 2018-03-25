@@ -1,11 +1,7 @@
 #!/usr/bin/env node
+import http from "http";
 
-/**
- * Module dependencies.
- */
-
-const app = require("../app");
-const http = require("http");
+import app from "../app";
 
 /**
  * Normalize a port into a number, or false.
@@ -79,4 +75,5 @@ function onListening() {
 
 server.on("error", onError);
 server.on("listening", onListening);
+
 server.listen(port);

@@ -1,11 +1,11 @@
-const express = require("express");
-const path = require("path");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
-const httpStatus = require("http-status");
+import express from "express";
+import path from "path";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import httpStatus from "http-status";
 
-const AppError = require("./helpers/app-error");
+import AppError from "./helpers/app-error";
 
 // var index = require('./routes/index');
 // var users = require('./routes/users');
@@ -29,9 +29,8 @@ app.use(
 );
 
 app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.resolve(__dirname, "../dist/public")));
 
 // app.use('/', index);
 // app.use('/users', users);
@@ -45,18 +44,16 @@ app.use((req, res, next) => {
     },
     httpStatus[404]
   );
-  next(err);
+  return next(err);
 });
 
-// error handler
+// global error handler
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-  // eslint-disable-line no-unused-vars
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-  console.error(err); // eslint-disable-line no-console
+  // eslint-disable-next-line no-console
+  console.error(err);
   res.status(err.httpCode || httpStatus.INTERNAL_SERVER_ERROR);
-  res.send(res.locals.message);
+  return res.end();
 });
 
-module.exports = app;
+export default app;
