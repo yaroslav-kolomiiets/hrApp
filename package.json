@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:back": "nodemon --exec npx babel-node -- ./server/bin",
+    "start:back": "nodemon --watch server --exec npx babel-node -- ./server",
     "start:front": "ng serve --proxy-config proxy.conf.json",
     "build:back": "babel ./server -d ./dist",
     "build:front": "ng build --dev",
@@ -19,14 +19,20 @@
   },
   "private": true,
   "dependencies": {
-    "body-parser": "1.18.2",
+    "@godaddy/terminus": "^2.2.0",
     "cookie-parser": "1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
     "express": "4.16.3",
+    "express-validation": "^1.0.2",
+    "helmet": "^3.12.0",
     "http-status": "1.0.1",
+    "joi": "^13.1.2",
     "lodash": "4.17.5",
-    "morgan": "1.9.0",
+    "method-override": "^2.3.10",
     "moment": "2.21.0",
-    "mongoose": "5.0.11"
+    "mongoose": "5.0.11",
+    "morgan": "1.9.0"
   },
   "devDependencies": {
     "@angular/animations": "5.2.9",
@@ -49,6 +55,7 @@
     "@types/hammerjs": "2.0.35",
     "@types/jasmine": "2.8.6",
     "@types/jasminewd2": "2.0.3",
+    "@types/joi": "^13.0.7",
     "@types/lodash-es": "4.17.0",
     "@types/mongoose": "5.0.7",
     "@types/node": "8.9.5",

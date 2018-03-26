@@ -1,59 +1,109 @@
-import express from "express";
-import path from "path";
-import morgan from "morgan";
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import httpStatus from "http-status";
+import mongoose from "mongoose";
+import http from "http";
+import terminus from "@godaddy/terminus";
 
-import AppError from "./helpers/app-error";
+import config from "./config/config";
+import app from "./config/express";
 
-// var index = require('./routes/index');
-// var users = require('./routes/users');
+function onSignal() {
+  mongoose.connection.close();
+  // start cleanup of resource, like databases or file descriptors
+}
 
-const app = express();
+async function onHealthCheck() {
+  // checks if the system is healthy, like the db connection is live
+  // resolves, if health, rejects if not
+}
 
-app.disable("x-powered-by");
+async function runServer() {
+  const server = http.createServer(app);
 
-app.use(
-  morgan("dev", {
-    skip: (req, res) => res.statusCode < 400,
-    stream: process.stderr
-  })
-);
-
-app.use(
-  morgan("dev", {
-    skip: (req, res) => res.statusCode >= 400,
-    stream: process.stdout
-  })
-);
-
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static(path.resolve(__dirname, "../dist/public")));
-
-// app.use('/', index);
-// app.use('/users', users);
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new AppError(
-    {
-      name: "RouterError",
-      httpCode: httpStatus.NOT_FOUND
+  terminus(server, {
+    signal: "SIGINT",
+    healthChecks: {
+      "/health-check": onHealthCheck
     },
-    httpStatus[404]
-  );
-  return next(err);
-});
+    onSignal
+  });
 
-// global error handler
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
-  // eslint-disable-next-line no-console
-  console.error(err);
-  res.status(err.httpCode || httpStatus.INTERNAL_SERVER_ERROR);
-  return res.end();
-});
+  server
+    .listen(config.port, () => {
+      // eslint-disable-next-line no-console
+      console.info(`[server] started on port ${config.port} (${config.env})`);
+    })
+    .on("close", () => {
+      // eslint-disable-next-line no-console
+      console.info(`[server] close on port ${config.port}`);
+    })
+    .on("error", error => {
+      if (error.syscall !== "listen") {
+        throw error;
+      }
 
-export default app;
+      // handle specific listen errors with friendly messages
+      switch (error.code) {
+        case "EACCES":
+          // eslint-disable-next-line no-console
+          console.error(
+            `[server] port ${config.port} requires elevated privileges`
+          );
+          process.exit(1);
+          break;
+
+        case "EADDRINUSE":
+          // eslint-disable-next-line no-console
+          console.error(`[server] port ${config.port} is already in use`);
+          process.exit(1);
+          break;
+
+        default:
+          throw error;
+      }
+    });
+}
+
+async function run() {
+  mongoose.set("bufferCommands", false); // Mongoose-specific buffering
+
+  if (config.mongooseDebug) {
+    mongoose.set("debug", true);
+  }
+
+  mongoose.connection.on("disconnected", () => {
+    // eslint-disable-next-line no-console
+    console.info(`[mongodb] disconnected at ${new Date()}`);
+  });
+  mongoose.connection.on("reconnect", () => {
+    // eslint-disable-next-line no-console
+    console.info(`[mongodb] reconnected at ${new Date()}`);
+  });
+  mongoose.connection.on("connected", () => {
+    // eslint-disable-next-line no-console
+    console.info(`[mongodb] connected at ${new Date()}`);
+  });
+  mongoose.connection.on("reconnectFailed", () => {
+    // eslint-disable-next-line no-console
+    console.error(`[mongodb] reconnect failed at ${new Date()}`);
+    process.exit(1);
+  });
+
+  mongoose.connection.once("open", runServer);
+
+  await mongoose
+    .connect(config.mongo.host, {
+      bufferMaxEntries: 0, // MongoDB driver buffering
+      keepAlive: 120,
+      dbName: config.mongo.db
+    })
+    // eslint-disable-next-line no-console
+    .catch(error => console.error("[mongodb]", error));
+}
+
+// eslint-disable-next-line no-console
+run().catch(error => console.error("[server]", error));
+
+// for nodemon
+process.once("SIGUSR2", () => {
+  onSignal();
+  process.kill(process.pid, "SIGUSR2");
+});
