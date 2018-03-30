@@ -1,9 +1,9 @@
 import express from "express";
 import morgan from "morgan";
-import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 import helmet from "helmet";
 import cors from "cors";
+import session from "express-session";
 
 import config from "./config";
 import apiRouter from "../app.router";
@@ -32,12 +32,18 @@ if (config.env === "development") {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser());
 app.use(methodOverride());
 
 app.use(helmet());
-
 app.use(cors());
+
+app.use(
+  session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: true
+  })
+);
 
 app.use("/api", apiRouter);
 app.use(pagesRouter);

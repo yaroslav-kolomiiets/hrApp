@@ -5,8 +5,8 @@ import terminus from "@godaddy/terminus";
 import config from "./config/config";
 import app from "./config/express";
 
-function onSignal() {
-  mongoose.connection.close();
+async function onSignal() {
+  return mongoose.connection.close();
   // start cleanup of resource, like databases or file descriptors
 }
 
@@ -71,26 +71,31 @@ async function run() {
 
   mongoose.connection.on("disconnected", () => {
     // eslint-disable-next-line no-console
-    console.info(`[mongodb] disconnected at ${new Date()}`);
+    console.info(`[mongodb] disconnected at ${new Date().toISOString()}`);
   });
   mongoose.connection.on("reconnect", () => {
     // eslint-disable-next-line no-console
-    console.info(`[mongodb] reconnected at ${new Date()}`);
+    console.info(`[mongodb] reconnected at ${new Date().toISOString()}`);
   });
   mongoose.connection.on("connected", () => {
     // eslint-disable-next-line no-console
-    console.info(`[mongodb] connected at ${new Date()}`);
+    console.info(`[mongodb] connected at ${new Date().toISOString()}`);
   });
   mongoose.connection.on("reconnectFailed", () => {
     // eslint-disable-next-line no-console
-    console.error(`[mongodb] reconnect failed at ${new Date()}`);
-    process.exit(1);
+    console.error(`[mongodb] reconnect failed at ${new Date().toISOString()}`);
+    onSignal()
+      .then(() => {
+        process.exit(1);
+      })
+      // eslint-disable-next-line no-console
+      .catch(error => console.error("[server] SIGUSR2 ", error));
   });
 
   mongoose.connection.once("open", runServer);
 
   await mongoose
-    .connect(config.mongo.host, {
+    .connect(`${config.mongo.host}:${config.mongo.port}`, {
       bufferMaxEntries: 0, // MongoDB driver buffering
       keepAlive: 120,
       dbName: config.mongo.db
@@ -104,6 +109,10 @@ run().catch(error => console.error("[server]", error));
 
 // for nodemon
 process.once("SIGUSR2", () => {
-  onSignal();
-  process.kill(process.pid, "SIGUSR2");
+  onSignal()
+    .then(() => {
+      process.kill(process.pid, "SIGUSR2");
+    })
+    // eslint-disable-next-line no-console
+    .catch(error => console.error("[server] SIGUSR2 ", error));
 });

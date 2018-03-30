@@ -36,7 +36,11 @@ const envVarsSchema = Joi.object({
     .required()
     .description("Mongo DB name"),
 
-  MONGO_PORT: Joi.number().default(27017)
+  MONGO_PORT: Joi.number().default(27017),
+
+  SESSION_SECRET: Joi.string()
+    .required()
+    .description("Secret used to sign the session ID cookie")
 })
   .unknown()
   .required();
@@ -57,7 +61,8 @@ const config = {
     host: envVars.MONGO_HOST,
     db: envVars.MONGO_DB,
     port: envVars.MONGO_PORT
-  }
+  },
+  sessionSecret: envVars.SESSION_SECRET
 };
 
 export default config;

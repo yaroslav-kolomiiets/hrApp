@@ -1,34 +1,26 @@
 import express from "express";
 import httpStatus from "http-status";
-import expressValidation from "express-validation";
+import RateLimit from "express-rate-limit";
 
 import AppError from "./helpers/app-error";
 import userRouter from "./components/user/user.router";
+import errorToAppError from "./helpers/router-middleware/error-to-apperror";
 
 const router = express.Router();
+
+const apiLimiter = new RateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  delayMs: 0 // disabled
+});
+
+router.use(apiLimiter);
 
 router.get("/", (req, res) => res.send("api-hrAppi"));
 
 router.use("/users", userRouter);
 
-// if error is not an instanceOf APIError, convert it.
-router.use((err, req, res, next) => {
-  if (err instanceof expressValidation.ValidationError) {
-    // validation error contains errors which is an array of error each containing message[]
-    const unifiedErrorMessage = err.errors
-      .map(error => error.messages.join(". "))
-      .join(" and ");
-    const error = new AppError(unifiedErrorMessage, err.status);
-    return next(error);
-  }
-
-  if (!(err instanceof AppError)) {
-    const apiError = new AppError(err.message, err.status);
-    return next(apiError);
-  }
-
-  return next(err);
-});
+router.use(errorToAppError);
 
 // catch 404 and forward to error handler
 router.use((req, res, next) => {
