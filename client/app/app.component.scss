@@ -1,1 +1,4 @@
-// empty
+.hra-main-container {
+  // 64px - toolbar height
+  min-height: calc(100vh - 64px);
+}

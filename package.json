@@ -4,12 +4,12 @@
   "license": "MIT",
   "scripts": {
     "start:back": "nodemon --watch server --exec npx babel-node -- ./server",
-    "start:front": "ng serve --proxy-config proxy.conf.json",
+    "start:front": "ng serve --aot=true --proxy-config proxy.conf.json",
     "build:back": "babel ./server -d ./dist",
-    "build:front": "ng build --dev",
-    "build:front:prod": "ng build --prod",
-    "build:stats:front": "ng build --dev --stats-json=stats.json",
-    "build:stats:front:prod": "ng build --prod --stats-json=stats.json",
+    "build:front": "ng build --aot=true --dev",
+    "build:front:prod": "ng build --aot=true --prod",
+    "build:stats:front": "ng build --aot=true --dev --stats-json=stats.json",
+    "build:stats:front:prod": "ng build --aot=true --prod --stats-json=stats.json",
     "build:all": "rm -rf dist && npm run \"build:back\" && npm run \"build:front\"",
     "build:all:prod": "rm -rf dist && npm run \"build:back\" && npm run \"build:front:prod\"",
     "lint:back": "eslint server",
@@ -35,7 +35,8 @@
     "method-override": "2.3.10",
     "moment": "2.21.0",
     "mongoose": "5.0.11",
-    "morgan": "1.9.0"
+    "morgan": "1.9.0",
+    "passport": "^0.4.0"
   },
   "devDependencies": {
     "@angular/animations": "5.2.9",
@@ -62,6 +63,7 @@
     "@types/lodash-es": "4.17.0",
     "@types/mongoose": "5.0.7",
     "@types/node": "8.9.5",
+    "@types/passport": "^0.4.3",
     "babel-cli": "6.26.0",
     "babel-preset-env": "1.6.1",
     "codelyzer": "4.2.1",
@@ -83,6 +85,7 @@
     "lodash-es": "4.17.7",
     "node-sass": "4.8.3",
     "nodemon": "1.17.2",
+    "normalize.css": "^8.0.0",
     "prettier": "1.11.1",
     "protractor": "5.3.0",
     "rxjs": "5.5.7",

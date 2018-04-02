@@ -5,6 +5,7 @@ import RateLimit from "express-rate-limit";
 import AppError from "./helpers/app-error";
 import userRouter from "./components/user/user.router";
 import errorToAppError from "./helpers/router-middleware/error-to-apperror";
+import config from "./config/config";
 
 const router = express.Router();
 
@@ -16,7 +17,9 @@ const apiLimiter = new RateLimit({
 
 router.use(apiLimiter);
 
-router.get("/", (req, res) => res.send("api-hrAppi"));
+if (config.env === "development") {
+  router.get("/", (req, res) => res.send("api-hrAppi"));
+}
 
 router.use("/users", userRouter);
 
@@ -39,7 +42,7 @@ router.use((err, req, res, next) => {
 router.use((err, req, res, next) => {
   // eslint-disable-next-line no-console
   res.status(err.status || httpStatus.INTERNAL_SERVER_ERROR);
-  return res.send(httpStatus[404]);
+  return res.end();
 });
 
 export default router;

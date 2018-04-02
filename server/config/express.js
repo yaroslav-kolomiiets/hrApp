@@ -4,6 +4,7 @@ import methodOverride from "method-override";
 import helmet from "helmet";
 import cors from "cors";
 import session from "express-session";
+import passport from "passport";
 
 import config from "./config";
 import apiRouter from "../app.router";
@@ -44,6 +45,9 @@ app.use(
     saveUninitialized: true
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/api", apiRouter);
 app.use(pagesRouter);
