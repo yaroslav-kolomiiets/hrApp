@@ -3,7 +3,7 @@ import expressValidation from "express-validation";
 
 import AppError from "../app-error";
 
-export default (err, req, res, next) => {
+export default function(err, req, res, next) {
   if (err instanceof expressValidation.ValidationError) {
     // validation error contains errors which is an array of error each containing message[]
     const unifiedErrorMessage = err.errors
