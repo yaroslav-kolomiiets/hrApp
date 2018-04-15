@@ -6,7 +6,8 @@ import AppError from "../../helpers/app-error";
 
 const router = express.Router();
 
-router.get("/auth", (req, res) => res.send("auth get"));
+// TODO implement authentication
+router.get("/", (req, res) => res.status(401).send({ user: true }));
 
 router.post("/login", (req, res) => res.send("login post"));
 

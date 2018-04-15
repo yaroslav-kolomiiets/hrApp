@@ -4,6 +4,7 @@ import RateLimit from "express-rate-limit";
 
 import AppError from "./helpers/app-error";
 import userRouter from "./components/user/user.router";
+import authRouter from "./components/auth/auth.router";
 import errorToAppError from "./helpers/router-middleware/error-to-apperror";
 import config from "./config/config";
 
@@ -21,6 +22,7 @@ if (config.env === "development") {
   router.get("/", (req, res) => res.send("api-hrAppi"));
 }
 
+router.use("/auth", authRouter);
 router.use("/users", userRouter);
 
 router.use(errorToAppError);

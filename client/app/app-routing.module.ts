@@ -3,6 +3,10 @@ import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [
   {
+    path: "login",
+    loadChildren: "./features/login/login.module#LoginModule"
+  },
+  {
     path: "**",
     redirectTo: "404"
   }

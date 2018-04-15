@@ -2,7 +2,7 @@ import { APP_INITIALIZER } from "@angular/core";
 import { AuthService } from "../services/auth.service";
 
 export function auth(authService: AuthService) {
-  return () => authService.auth();
+  return () => authService.auth().toPromise();
 }
 
 export const appLoadProviders = [
