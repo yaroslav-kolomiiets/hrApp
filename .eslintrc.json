@@ -1,5 +1,9 @@
 {
+  "plugins": [
+    "security"
+  ],
   "extends": [
+    "plugin:security/recommended",
     "eslint:recommended",
     "airbnb-base",
     "plugin:prettier/recommended"
