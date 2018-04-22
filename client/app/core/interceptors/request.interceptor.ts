@@ -12,9 +12,9 @@ export class RequestInterceptor implements HttpInterceptor {
   constructor() {}
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<object>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<object>> {
     if (req.url.includes("api")) {
       const duplicate = req.clone({ withCredentials: true });
       return next.handle(duplicate);

@@ -101,6 +101,14 @@
     "component-class-suffix": true,
     "directive-class-suffix": true,
 
+    "no-attribute-parameter-decorator": true,
+    "no-forward-ref": true,
+    "no-output-named-after-standard-event": true,
+    "max-inline-declarations": true,
+    "prefer-output-readonly": true,
+    "no-conflicting-life-cycle-hooks": true,
+    "enforce-component-selector": true,
+
     "no-any": true,
     "prettier": true
   }

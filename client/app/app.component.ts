@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { MatSidenav } from "@angular/material";
+
 import { AuthService } from "./core/services/auth.service";
 
 @Component({
@@ -8,7 +10,7 @@ import { AuthService } from "./core/services/auth.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  currentUser = null;
+  currentUser: object | null = null;
 
   constructor(private authService: AuthService) {}
 
@@ -20,7 +22,7 @@ export class AppComponent implements OnInit {
     return !!this.currentUser;
   }
 
-  toggleMenu(snav) {
+  toggleMenu(snav: MatSidenav) {
     if (this.currentUser) {
       snav.toggle();
     }

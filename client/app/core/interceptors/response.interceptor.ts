@@ -16,9 +16,9 @@ export class ResponseInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(
-    req: HttpRequest<any>,
+    req: HttpRequest<object>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<object>> {
     return next.handle(req).pipe(
       tap(
         () => {},

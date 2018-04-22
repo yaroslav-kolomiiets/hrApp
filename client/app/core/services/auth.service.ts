@@ -10,7 +10,7 @@ import { map } from "rxjs/operators/map";
 
 @Injectable()
 export class AuthService {
-  private curUser: null;
+  private curUser: null | object;
   private readonly authApi = {
     auth: "api/auth",
     login: "api/auth/login",
@@ -33,8 +33,8 @@ export class AuthService {
   }
 
   auth(): Observable<void> {
-    return this.httpClient.get<any>(this.authApi.auth).pipe(
-      map((user: any) => {
+    return this.httpClient.get<object>(this.authApi.auth).pipe(
+      map((user: object) => {
         if (isPlainObject(user)) {
           this.curUser = user;
         }

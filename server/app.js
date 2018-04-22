@@ -95,7 +95,7 @@ async function run() {
   mongoose.connection.once("open", runServer);
 
   await mongoose
-    .connect(`${config.mongo.host}:${config.mongo.port}`, {
+    .connect(`mongodb://${config.mongo.host}:${config.mongo.port}`, {
       bufferMaxEntries: 0, // MongoDB driver buffering
       keepAlive: 120,
       dbName: config.mongo.db
