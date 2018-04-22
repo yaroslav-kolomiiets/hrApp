@@ -5,8 +5,17 @@ import terminus from "@godaddy/terminus";
 import config from "./config/config";
 import app from "./config/express";
 
+let server = null;
+
 async function onSignal() {
-  return mongoose.connection.close();
+  return new Promise(resolve => {
+    if (server) {
+      server.close(() => resolve());
+    } else {
+      resolve();
+    }
+  }).then(() => mongoose.connection.close());
+
   // start cleanup of resource, like databases or file descriptors
 }
 
@@ -16,7 +25,7 @@ async function onHealthCheck() {
 }
 
 async function runServer() {
-  const server = http.createServer(app);
+  server = http.createServer(app);
 
   terminus(server, {
     signal: "SIGINT",
@@ -88,8 +97,11 @@ async function run() {
       .then(() => {
         process.exit(1);
       })
-      // eslint-disable-next-line no-console
-      .catch(error => console.error("[server] SIGUSR2 ", error));
+      .catch(error => {
+        process.exit(1);
+        // eslint-disable-next-line no-console
+        console.error("[server] SIGUSR2 ", error);
+      });
   });
 
   mongoose.connection.once("open", runServer);
@@ -113,6 +125,9 @@ process.once("SIGUSR2", () => {
     .then(() => {
       process.kill(process.pid, "SIGUSR2");
     })
-    // eslint-disable-next-line no-console
-    .catch(error => console.error("[server] SIGUSR2 ", error));
+    .catch(error => {
+      process.kill(process.pid, "SIGUSR2");
+      // eslint-disable-next-line no-console
+      console.error("[server] SIGUSR2 ", error);
+    });
 });
