@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "hra",
       "styles": [
-        "hra-theme.scss",
+        "theme.scss",
         "styles.scss"
       ],
       "scripts": [],

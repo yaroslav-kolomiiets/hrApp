@@ -1,5 +1,14 @@
-@import "~@angular/material/theming";
+@import "../../node_modules/@angular/material/_theming.scss";
 
+// theme colors
 $hra-light-primary: mat-palette($mat-indigo);
 $hra-light-accent: mat-palette($mat-pink, A200, A100, A400);
 $hra-light-theme: mat-light-theme($hra-light-primary, $hra-light-accent);
+
+$hra-dark-primary: mat-palette($mat-light-blue);
+$hra-dark-accent: mat-palette($mat-green);
+$hra-dark-theme: mat-dark-theme($hra-dark-primary, $hra-dark-accent);
+
+// sizes
+$hra-container-width: 960px;
+$hra-toolbar-height: 64px;

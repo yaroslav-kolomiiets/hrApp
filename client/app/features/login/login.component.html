@@ -1,3 +1,62 @@
-<p>
-  login works!
-</p>
+<mat-card
+  fxFlex
+  fxFlexAlign="center"
+>
+  <mat-card-title>
+    Login
+  </mat-card-title>
+
+  <form
+    [formGroup]="loginForm"
+    novalidate
+  >
+    <mat-card-content
+      fxLayout="column"
+      fxFlex
+    >
+      <mat-form-field
+        fxFlex
+      >
+        <input
+          matInput
+          type="email"
+          placeholder="Email"
+          formControlName="email"
+          required
+        >
+      </mat-form-field>
+
+      <mat-form-field
+        fxFlex
+      >
+        <input
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Password"
+          formControlName="password"
+          required
+        >
+        <button
+          mat-button
+          matSuffix
+          mat-icon-button
+          (click)="hidePassword = !hidePassword"
+        >
+          <mat-icon>
+            {{hidePassword ? 'visibility' : 'visibility_off'}}
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        type="submit"
+        class="mat-primary"
+      >
+        Log in
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

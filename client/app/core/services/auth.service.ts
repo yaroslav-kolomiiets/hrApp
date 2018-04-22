@@ -8,14 +8,15 @@ import { _throw } from "rxjs/observable/throw";
 import { catchError } from "rxjs/operators/catchError";
 import { map } from "rxjs/operators/map";
 
+const enum api {
+  auth = "api/auth",
+  login = "api/auth/login",
+  logout = "api/auth/logout"
+}
+
 @Injectable()
 export class AuthService {
   private curUser: null | object;
-  private readonly authApi = {
-    auth: "api/auth",
-    login: "api/auth/login",
-    logout: "api/auth/logout"
-  };
 
   constructor(
     @Optional()
@@ -33,7 +34,7 @@ export class AuthService {
   }
 
   auth(): Observable<void> {
-    return this.httpClient.get<object>(this.authApi.auth).pipe(
+    return this.httpClient.get<object>(api.auth).pipe(
       map((user: object) => {
         if (isPlainObject(user)) {
           this.curUser = user;

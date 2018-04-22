@@ -11,6 +11,7 @@ import { AuthService } from "./core/services/auth.service";
 })
 export class AppComponent implements OnInit {
   currentUser: object | null = null;
+  isDarkTheme = false;
 
   constructor(private authService: AuthService) {}
 

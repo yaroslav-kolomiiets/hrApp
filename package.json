@@ -18,7 +18,7 @@
     "e2e:front": "ng e2e",
     "stats:front": "webpack-bundle-analyzer ./dist/public/stats.json",
     "stylelint": "stylelint '**/*.scss'",
-    "ngc:aot": "npx ngc -p tsconfig-aot.json"
+    "ngc:aot": "npx ngc -p ./client/tsconfig.app-aot.json"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +47,7 @@
     "@angular/compiler": "5.2.10",
     "@angular/compiler-cli": "5.2.10",
     "@angular/core": "5.2.10",
+    "@angular/flex-layout": "5.0.0-beta.14",
     "@angular/forms": "5.2.10",
     "@angular/http": "5.2.10",
     "@angular/language-service": "5.2.10",

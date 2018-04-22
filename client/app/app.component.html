@@ -1,31 +1,75 @@
-<mat-toolbar class="hra-toolbar mat-primary mat-elevation-z6">
-  <button
-    *ngIf="isAuthenticated"
-    mat-icon-button
-    (click)="toggleMenu(snav)"
+<div
+  fxLayout="column"
+  fxFlex
+  [class.dark-theme]="isDarkTheme"
+>
+  <mat-toolbar
+    class="mat-primary mat-elevation-z6"
   >
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h1>HR app</h1>
-</mat-toolbar>
+    <mat-toolbar-row>
+      <button
+        *ngIf="isAuthenticated"
+        mat-icon-button
+        (click)="toggleMenu(snav)"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h2>HR app</h2>
+      <span fxFlex></span>
 
-<mat-sidenav-container class="hra-main-container">
-  <mat-sidenav
-    #snav
-    mode="over"
-    [fixedInViewport]="true"
-    [fixedTopGap]="64"
+      <button mat-icon-button>
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    fxFlex
   >
-    <ng-container *ngIf="isAuthenticated">
-      <mat-nav-list>
-        <a mat-list-item routerLink=".">nav</a>
-        <!--<a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>-->
-      </mat-nav-list>
-    </ng-container>
-  </mat-sidenav>
+    <mat-sidenav
+      #snav
+      mode="over"
+      [fixedInViewport]="true"
+      [fixedTopGap]="64"
+    >
+      <ng-container
+        *ngIf="isAuthenticated"
+      >
+        <mat-nav-list>
+          <a
+            mat-list-item
+            routerLink="."
+          >
+            nav
+          </a>
+          <!--<a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a>-->
+        </mat-nav-list>
+      </ng-container>
+    </mat-sidenav>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-    content
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    <mat-sidenav-content
+      fxFlex
+    >
+      <div
+        fxLayout="column"
+        fxFlex
+        class="hra-main-container"
+      >
+        <router-outlet></router-outlet>
+        <div
+          class="spinner-container"
+          fxFlex
+          fxFlexAlign="center"
+          [fxHide]="true"
+        >
+          <mat-spinner
+            fxFlex
+            fxFlexAlign="center"
+            [strokeWidth]="7"
+          >
+          </mat-spinner>
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

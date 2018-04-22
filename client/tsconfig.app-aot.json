@@ -1,0 +1,27 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../dist/public/out-tsc/app-aot",
+    "baseUrl": "./",
+    "module": "es2015",
+    "types": []
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ],
+  "include": [
+    "**/*.module.ts"
+  ],
+  "files": [
+    "main-aot.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "./dist/public",
+    "skipMetadataEmit" : true,
+    "collectAllErrors": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "preserveWhitespaces": false
+  }
+}

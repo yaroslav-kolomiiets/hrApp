@@ -1,5 +1,6 @@
-import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { ReactiveFormsModule } from "@angular/forms";
 
 import {
   MatAutocompleteModule,
@@ -46,8 +47,7 @@ export const materialModules = [
 ];
 
 @NgModule({
-  imports: [CommonModule, materialModules],
-  exports: [materialModules],
+  exports: [materialModules, FlexLayoutModule, ReactiveFormsModule],
   declarations: []
 })
 export class SharedModule {}

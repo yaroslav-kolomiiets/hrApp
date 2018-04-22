@@ -17,5 +17,8 @@
     ],
     "noImplicitAny": true,
     "suppressImplicitAnyIndexErrors": true
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false
   }
 }
